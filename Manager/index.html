@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Task Manager</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/TaskManager.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <h1>Task Manager</h1>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary col-md-2">Add Task</button>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" id="TaskName">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2" style="background-color:lavender; height:500px;">
+            <div class="btn-group-vertical">
+                <button type="button" class="btn btn-default category_item">Task Manager</button>
+                <button type="button" class="btn btn-default category_item">Personal Stuff</button>
+                <button type="button" class="btn btn-default category_item">Angular JS</button>
+                <button type="button" class="btn btn-default category_item">Backbone JS</button>
+            </div>
+            <button type="button" class="btn btn-default category_add">Add Category</button>
+        </div>
+
+        <div class="col-md-10" style="background-color:lavenderblush; height:500px; overflow: auto;">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Done</th>
+                    <th>Task Name</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><input type="checkbox" id="Task1" value=""></td>
+                    <td>Start the project</td>
+                    <td>
+                        <select class="form-control" id="sel1">
+                            <option>New</option>
+                            <option>In Progress</option>
+                            <option>On Hold</option>
+                            <option>Resolved</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="Task2" value=""></td>
+                    <td>Setup Version control</td>
+                    <td>
+                        <select class="form-control" id="sel1">
+                            <option>New</option>
+                            <option>In Progress</option>
+                            <option>On Hold</option>
+                            <option>Resolved</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="Task3" value=""></td>
+                    <td>Page Makeup</td>
+                    <td>
+                        <select class="form-control" id="sel1">
+                            <option>New</option>
+                            <option>In Progress</option>
+                            <option>On Hold</option>
+                            <option>Resolved</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="Task4" value=""></td>
+                    <td>Add dynamic</td>
+                    <td>
+                        <select class="form-control" id="sel1">
+                            <option>New</option>
+                            <option>In Progress</option>
+                            <option>On Hold</option>
+                            <option>Resolved</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="Task5" value=""></td>
+                    <td>Attach backend/persistence</td>
+                    <td>
+                        <select class="form-control" id="sel1">
+                            <option>New</option>
+                            <option>In Progress</option>
+                            <option>On Hold</option>
+                            <option>Resolved</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="Task6" value=""></td>
+                    <td>Fix bugs</td>
+                    <td>
+                        <select class="form-control" id="sel1">
+                            <option>New</option>
+                            <option>In Progress</option>
+                            <option>On Hold</option>
+                            <option>Resolved</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="Task6" value=""></td>
+                    <td>Fix bugs</td>
+                    <td>
+                        <select class="form-control" id="sel1">
+                            <option>New</option>
+                            <option>In Progress</option>
+                            <option>On Hold</option>
+                            <option>Resolved</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="Task6" value=""></td>
+                    <td>Fix bugs</td>
+                    <td>
+                        <select class="form-control" id="sel1">
+                            <option>New</option>
+                            <option>In Progress</option>
+                            <option>On Hold</option>
+                            <option>Resolved</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="Task6" value=""></td>
+                    <td>Fix bugs</td>
+                    <td>
+                        <select class="form-control" id="sel1">
+                            <option>New</option>
+                            <option>In Progress</option>
+                            <option>On Hold</option>
+                            <option>Resolved</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="Task6" value=""></td>
+                    <td>Fix bugs</td>
+                    <td>
+                        <select class="form-control" id="sel1">
+                            <option>New</option>
+                            <option>In Progress</option>
+                            <option>On Hold</option>
+                            <option>Resolved</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="Task6" value=""></td>
+                    <td>Fix bugs</td>
+                    <td>
+                        <select class="form-control" id="sel1">
+                            <option>New</option>
+                            <option>In Progress</option>
+                            <option>On Hold</option>
+                            <option>Resolved</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="Task6" value=""></td>
+                    <td>Fix bugs</td>
+                    <td>
+                        <select class="form-control" id="sel1">
+                            <option>New</option>
+                            <option>In Progress</option>
+                            <option>On Hold</option>
+                            <option>Resolved</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="Task6" value=""></td>
+                    <td>Fix bugs</td>
+                    <td>
+                        <select class="form-control" id="sel1">
+                            <option>New</option>
+                            <option>In Progress</option>
+                            <option>On Hold</option>
+                            <option>Resolved</option>
+                        </select>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
