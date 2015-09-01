@@ -12,3 +12,6 @@
     width: 95%;
 }
 
+.stroked {
+    text-decoration: line-through;
+}

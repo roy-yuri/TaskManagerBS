@@ -8,6 +8,23 @@
     <link rel="stylesheet" href="css/TaskManager.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="js/notify.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $(":checkbox").click(function() {
+                var NextTd = $(this).parent().parent();
+                //alert(NextTd);
+                $(NextTd).toggleClass('stroked');
+            });
+
+            $("button").click(function() {
+                $.notify("Not Implemented Yet", {autoHide: true});
+            })
+        });
+
+    </script>
+
 </head>
 <body>
 
@@ -16,12 +33,11 @@
 
     <div class="row">
         <div class="col-md-12">
-
             <form class="form-horizontal" role="form">
                 <div class="form-group">
                     <button type="button" class="btn btn-primary col-md-2">Add Task</button>
                     <div class="col-md-10">
-                        <input type="text" class="form-control" id="TaskName">
+                        <input type="text" class="form-control" id="TaskName" placeholder="Enter task name...">
                     </div>
                 </div>
             </form>
@@ -40,7 +56,7 @@
         </div>
 
         <div class="col-md-10" style="background-color:lavenderblush; height:500px; overflow: auto;">
-            <table class="table">
+            <table class="table" id="TasksTable">
                 <thead>
                 <tr>
                     <th>Done</th>
@@ -50,7 +66,7 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td><input type="checkbox" id="Task1" value=""></td>
+                    <td><input type="checkbox" id="1" value=""></td>
                     <td>Start the project</td>
                     <td>
                         <select class="form-control" id="Stat1">
@@ -62,7 +78,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><input type="checkbox" id="Task2" value=""></td>
+                    <td><input type="checkbox" id="2" value=""></td>
                     <td>Setup Version control</td>
                     <td>
                         <select class="form-control" id="Stat2">
@@ -114,18 +130,6 @@
                     <td>Fix bugs</td>
                     <td>
                         <select class="form-control" id="Stat6">
-                            <option>New</option>
-                            <option>In Progress</option>
-                            <option>On Hold</option>
-                            <option>Resolved</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" id="Task7" value=""></td>
-                    <td>Fix bugs</td>
-                    <td>
-                        <select class="form-control" id="Stat7">
                             <option>New</option>
                             <option>In Progress</option>
                             <option>On Hold</option>
