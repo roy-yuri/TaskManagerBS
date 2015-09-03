@@ -12,17 +12,42 @@
 
     <script>
         $(document).ready(function(){
-            $(":checkbox").click(function() {
-                var NextTd = $(this).parent().parent();
-                //alert(NextTd);
-                $(NextTd).toggleClass('stroked');
+
+            //Work with dynamic content
+            $(document).on("click", ":checkbox", function () {
+                var myRow = $(this).parent().parent();
+                var lastRow = $(myRow).nextAll();
+                $(myRow).toggleClass('stroked');
+                if (myRow.hasClass('stroked')) {
+                    myRow.remove();
+                    $("#TasksTable").find("tbody:last").append(myRow);
+                }
+                return true;
             });
 
-            $("button").click(function() {
-                $.notify("Not Implemented Yet", {autoHide: true});
-            })
-        });
+            $("#AddTask").click(function() {
+                var AddTaskName = $("#TaskName").val();
+                if (AddTaskName) {
+                    $("#TasksTable").find("tbody:last").append('<tr><td><input type="checkbox" value=""></td><td>'+AddTaskName+'</td><td><select class="form-control"><option>New</option><option>In Progress</option><option>On Hold</option><option>Resolved</option></select></td></tr>');
+                    $("#TaskName").val("");
+                }
+                return true;
+            });
 
+            $("#AddCategory").click(function() {
+                var AddCategoryName = $("#NewCategory").val();
+                if (AddCategoryName) {
+                    $("#Categories").append('<button type="button" class="btn btn-default category_item">'+AddCategoryName+'</button>');
+                    $("#NewCategory").val("");
+                }
+                return true;
+            });
+
+            $("button").parent("#Categories").click(function() {
+                $.notify("Not Implemented Yet", {autoHide: true});
+            });
+
+        });
     </script>
 
 </head>
@@ -35,7 +60,7 @@
         <div class="col-md-12">
             <form class="form-horizontal" role="form">
                 <div class="form-group">
-                    <button type="button" class="btn btn-primary col-md-2">Add Task</button>
+                    <button type="button" id="AddTask" class="btn btn-primary col-md-2">Add Task</button>
                     <div class="col-md-10">
                         <input type="text" class="form-control" id="TaskName" placeholder="Enter task name...">
                     </div>
@@ -46,13 +71,14 @@
 
     <div class="row">
         <div class="col-md-2" style="background-color:lavender; height:500px;">
-            <div class="btn-group-vertical">
+            <div class="btn-group-vertical" id="Categories">
                 <button type="button" class="btn btn-default category_item">Task Manager</button>
                 <button type="button" class="btn btn-default category_item">Personal Stuff</button>
                 <button type="button" class="btn btn-default category_item">Angular JS</button>
                 <button type="button" class="btn btn-default category_item">Backbone JS</button>
             </div>
-            <button type="button" class="btn btn-default category_add">Add Category</button>
+            <input type="text" class="form-control category_name" id="NewCategory" placeholder="New Category...">
+            <button type="button" id="AddCategory" class="btn btn-default category_add">Add Category</button>
         </div>
 
         <div class="col-md-10" style="background-color:lavenderblush; height:500px; overflow: auto;">
@@ -64,10 +90,10 @@
                     <th>Status</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="TasksList">
                 <tr>
-                    <td><input type="checkbox" id="1" value=""></td>
-                    <td>Start the project</td>
+                    <td><input type="checkbox" value=""></td>
+                    <td>1Start the project</td>
                     <td>
                         <select class="form-control" id="Stat1">
                             <option>New</option>
@@ -78,8 +104,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><input type="checkbox" id="2" value=""></td>
-                    <td>Setup Version control</td>
+                    <td><input type="checkbox" value=""></td>
+                    <td>2Setup Version control</td>
                     <td>
                         <select class="form-control" id="Stat2">
                             <option>New</option>
@@ -90,8 +116,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><input type="checkbox" id="Task3" value=""></td>
-                    <td>Page Makeup</td>
+                    <td><input type="checkbox" value=""></td>
+                    <td>3Page Makeup</td>
                     <td>
                         <select class="form-control" id="Stat3">
                             <option>New</option>
@@ -102,8 +128,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><input type="checkbox" id="Task4" value=""></td>
-                    <td>Add dynamic</td>
+                    <td><input type="checkbox" value=""></td>
+                    <td>4Add dynamic</td>
                     <td>
                         <select class="form-control" id="Stat4">
                             <option>New</option>
@@ -114,8 +140,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><input type="checkbox" id="Task5" value=""></td>
-                    <td>Attach backend/persistence</td>
+                    <td><input type="checkbox" value=""></td>
+                    <td>5Attach backend/persistence</td>
                     <td>
                         <select class="form-control" id="Stat5">
                             <option>New</option>
@@ -126,8 +152,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><input type="checkbox" id="Task6" value=""></td>
-                    <td>Fix bugs</td>
+                    <td><input type="checkbox" value=""></td>
+                    <td>6Fix bugs</td>
                     <td>
                         <select class="form-control" id="Stat6">
                             <option>New</option>
@@ -137,6 +163,11 @@
                         </select>
                     </td>
                 </tr>
+
+<!--                <tr id="divider">
+                    <td><hr></td>
+                </tr>
+-->
                 </tbody>
             </table>
 

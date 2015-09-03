@@ -12,6 +12,14 @@
     width: 95%;
 }
 
+.category_name {
+    position: absolute;
+    bottom: 40px;
+    left: 5px;
+    width: 95%;
+}
+
+
 .stroked {
     text-decoration: line-through;
 }
