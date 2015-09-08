@@ -28,10 +28,21 @@
             $("#AddTask").click(function() {
                 var AddTaskName = $("#TaskName").val();
                 if (AddTaskName) {
-                    $("#TasksTable").find("tbody:last").append('<tr><td><input type="checkbox" value=""></td><td>'+AddTaskName+'</td><td><select class="form-control"><option>New</option><option>In Progress</option><option>On Hold</option><option>Resolved</option></select></td></tr>');
+                    $("#TasksTable").find("tbody:first").prepend('<tr><td><input type="checkbox" value=""></td><td>'+AddTaskName+'</td><td><select class="form-control"><option>New</option><option>In Progress</option><option>On Hold</option><option>Resolved</option></select></td></tr>');
                     $("#TaskName").val("");
                 }
                 return true;
+            });
+
+            $("#TaskName").keypress(function(event) {
+                if (event.keyCode == '13') {
+                    var AddTaskName = $("#TaskName").val();
+                    if (AddTaskName) {
+                        $("#TasksTable").find("tbody:first").prepend('<tr><td><input type="checkbox" value=""></td><td>'+AddTaskName+'</td><td><select class="form-control"><option>New</option><option>In Progress</option><option>On Hold</option><option>Resolved</option></select></td></tr>');
+                        $("#TaskName").val("");
+                    }
+                    return true;
+                }
             });
 
             $("#AddCategory").click(function() {
@@ -58,7 +69,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <form class="form-horizontal" role="form">
+            <form class="form-horizontal" role="form" onsubmit="">
                 <div class="form-group">
                     <button type="button" id="AddTask" class="btn btn-primary col-md-2">Add Task</button>
                     <div class="col-md-10">
@@ -163,11 +174,6 @@
                         </select>
                     </td>
                 </tr>
-
-<!--                <tr id="divider">
-                    <td><hr></td>
-                </tr>
--->
                 </tbody>
             </table>
 
