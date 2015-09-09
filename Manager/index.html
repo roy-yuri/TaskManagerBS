@@ -22,7 +22,7 @@
                     myRow.remove();
                     $("#TasksTable").find("tbody:last").append(myRow);
                 }
-                return false;
+                return true;
             });
 
             $("#AddTask").click(function() {
@@ -31,7 +31,7 @@
                     $("#TasksTable").find("tbody:first").prepend('<tr><td><input type="checkbox" value=""></td><td>'+AddTaskName+'</td><td><select class="form-control"><option>New</option><option>In Progress</option><option>On Hold</option><option>Resolved</option></select></td></tr>');
                     $("#TaskName").val("");
                 }
-                return true;
+                return false;
             });
 
             $("#AddCategory").click(function() {
@@ -46,7 +46,7 @@
             $("button").parent("#Categories").click(function() {
                 $.notify("Not Implemented Yet", {autoHide: true});
             });
-
+            
         });
     </script>
 
