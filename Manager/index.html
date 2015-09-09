@@ -74,7 +74,7 @@
             $("#AddTask").click(function() {
                 var AddTaskName = $("#TaskName").val();
                 if (AddTaskName) {
-                    $("#TasksTable").find("tbody:first").prepend('<tr><td><input type="checkbox" value=""></td><td>'+AddTaskName+'</td><td><select class="form-control"><option>New</option><option>In Progress</option><option>On Hold</option><option>Resolved</option></select></td></tr>');
+                    $("#TasksTable").find("tbody:first").prepend('<tr><td><input type="checkbox" value=""></td><td>'+AddTaskName+'</td><td>' + '<div class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">New<span class="caret"></span></a><ul class="dropdown-menu" id="TaskStatus"><li id="New"><a href="#">New</a></li><li id="In Progress"><a href="#">In Progress</a></li><li id="On Hold"><a href="#">On Hold</a></li><li id="Resolved"><a href="#">Resolved</a></li></ul></div></td></tr>');
                     $("#TaskName").val("");
                 }
                 return false;
