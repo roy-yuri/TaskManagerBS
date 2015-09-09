@@ -11,7 +11,53 @@
     <script src="js/notify.min.js"></script>
 
     <script>
+
+        // Array of tasks, global variable, very bad coding style
+        var taskListObjects = [];
+
+        // Construction of object to save in local storage
+        function ConstructObject() {
+            var taskCount = $('#TasksTable tbody tr').length;
+            var taskNames = $('#TasksTable tbody tr');
+
+            for (var i = 0; i < taskCount; i++) {
+
+                var taskDone = taskNames[i].cells.item(0).innerText;
+                var taskName = taskNames[i].cells.item(1).innerText;
+                var taskStatus = taskNames[i].cells.item(2).innerText;
+
+                taskListObjects.push({
+                    done: taskDone,
+                    name: taskName,
+                    status: taskStatus
+                });
+            }
+        }
+
+        //Construction of task list using object retrieved from local storage
+        function ConstructTaskList() {
+
+        }
+
+        function printObject() {
+            console.log(taskListObjects);
+        }
+
+        // Storing an object into local storage
+        function StoreObject() {
+            localStorage.setItem('taskManagerList', JSON.stringify(taskListObjects));
+        }
+
+        // Loading object from local storage
+        function LoadObject() {
+            taskListObjects = JSON.parse(localStorage.getItem("taskManagerList"));
+        }
+
         $(document).ready(function(){
+
+            LoadObject();
+            printObject();
+
 
             //Work with dynamic content
             $(document).on("click", ":checkbox", function () {
@@ -43,11 +89,16 @@
                 return true;
             });
 
+            $(document).on("click", "#TaskStatus li", function() {
+                $(this).parent().siblings("a").html(this.id+'<span class="caret"></span>');
+                return true;
+            });
+
             $("button").parent("#Categories").click(function() {
                 $.notify("Not Implemented Yet", {autoHide: true});
             });
-            
         });
+
     </script>
 
 </head>
@@ -58,7 +109,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <form class="form-horizontal" role="form">
+            <form class="form-horizontal" role="form" onsubmit="">
                 <div class="form-group">
                     <button type="submit" id="AddTask" class="btn btn-primary col-md-2">Add Task</button>
                     <div class="col-md-10">
@@ -95,72 +146,90 @@
                     <td><input type="checkbox" value=""></td>
                     <td>1Start the project</td>
                     <td>
-                        <select class="form-control" id="Stat1">
-                            <option>New</option>
-                            <option>In Progress</option>
-                            <option>On Hold</option>
-                            <option>Resolved</option>
-                        </select>
+                        <div class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">New<span class="caret"></span></a>
+                            <ul class="dropdown-menu" id="TaskStatus">
+                                <li id="New"><a href="#">New</a></li>
+                                <li id="In Progress"><a href="#">In Progress</a></li>
+                                <li id="On Hold"><a href="#">On Hold</a></li>
+                                <li id="Resolved"><a href="#">Resolved</a></li>
+                            </ul>
+                        </div>
                     </td>
                 </tr>
                 <tr>
                     <td><input type="checkbox" value=""></td>
                     <td>2Setup Version control</td>
                     <td>
-                        <select class="form-control" id="Stat2">
-                            <option>New</option>
-                            <option>In Progress</option>
-                            <option>On Hold</option>
-                            <option>Resolved</option>
-                        </select>
+                        <div class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">New<span class="caret"></span></a>
+                            <ul class="dropdown-menu" id="TaskStatus">
+                                <li id="New"><a href="#">New</a></li>
+                                <li id="In Progress"><a href="#">In Progress</a></li>
+                                <li id="On Hold"><a href="#">On Hold</a></li>
+                                <li id="Resolved"><a href="#">Resolved</a></li>
+                            </ul>
+                        </div>
                     </td>
                 </tr>
                 <tr>
                     <td><input type="checkbox" value=""></td>
                     <td>3Page Makeup</td>
                     <td>
-                        <select class="form-control" id="Stat3">
-                            <option>New</option>
-                            <option>In Progress</option>
-                            <option>On Hold</option>
-                            <option>Resolved</option>
-                        </select>
+                        <div class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">New<span class="caret"></span></a>
+                            <ul class="dropdown-menu" id="TaskStatus">
+                                <li id="New"><a href="#">New</a></li>
+                                <li id="In Progress"><a href="#">In Progress</a></li>
+                                <li id="On Hold"><a href="#">On Hold</a></li>
+                                <li id="Resolved"><a href="#">Resolved</a></li>
+                            </ul>
+                        </div>
                     </td>
                 </tr>
                 <tr>
                     <td><input type="checkbox" value=""></td>
                     <td>4Add dynamic</td>
                     <td>
-                        <select class="form-control" id="Stat4">
-                            <option>New</option>
-                            <option>In Progress</option>
-                            <option>On Hold</option>
-                            <option>Resolved</option>
-                        </select>
+                        <div class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">New<span class="caret"></span></a>
+                            <ul class="dropdown-menu" id="TaskStatus">
+                                <li id="New"><a href="#">New</a></li>
+                                <li id="In Progress"><a href="#">In Progress</a></li>
+                                <li id="On Hold"><a href="#">On Hold</a></li>
+                                <li id="Resolved"><a href="#">Resolved</a></li>
+                            </ul>
+                        </div>
                     </td>
                 </tr>
                 <tr>
                     <td><input type="checkbox" value=""></td>
                     <td>5Attach backend/persistence</td>
                     <td>
-                        <select class="form-control" id="Stat5">
-                            <option>New</option>
-                            <option>In Progress</option>
-                            <option>On Hold</option>
-                            <option>Resolved</option>
-                        </select>
+                        <div class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">New<span class="caret"></span></a>
+                            <ul class="dropdown-menu" id="TaskStatus">
+                                <li id="New"><a href="#">New</a></li>
+                                <li id="In Progress"><a href="#">In Progress</a></li>
+                                <li id="On Hold"><a href="#">On Hold</a></li>
+                                <li id="Resolved"><a href="#">Resolved</a></li>
+                            </ul>
+                        </div>
                     </td>
                 </tr>
                 <tr>
                     <td><input type="checkbox" value=""></td>
                     <td>6Fix bugs</td>
                     <td>
-                        <select class="form-control" id="Stat6">
-                            <option>New</option>
-                            <option>In Progress</option>
-                            <option>On Hold</option>
-                            <option>Resolved</option>
-                        </select>
+                        <div class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">New<span class="caret"></span></a>
+                            <ul class="dropdown-menu" id="TaskStatus">
+                                <li id="New"><a href="#">New</a></li>
+                                <li id="In Progress"><a href="#">In Progress</a></li>
+                                <li id="On Hold"><a href="#">On Hold</a></li>
+                                <li id="Resolved"><a href="#">Resolved</a></li>
+                            </ul>
+                        </div>
                     </td>
                 </tr>
                 </tbody>
