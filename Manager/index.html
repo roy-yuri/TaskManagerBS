@@ -22,7 +22,7 @@
                     myRow.remove();
                     $("#TasksTable").find("tbody:last").append(myRow);
                 }
-                return true;
+                return false;
             });
 
             $("#AddTask").click(function() {
@@ -32,17 +32,6 @@
                     $("#TaskName").val("");
                 }
                 return true;
-            });
-
-            $("#TaskName").keypress(function(event) {
-                if (event.keyCode == '13') {
-                    var AddTaskName = $("#TaskName").val();
-                    if (AddTaskName) {
-                        $("#TasksTable").find("tbody:first").prepend('<tr><td><input type="checkbox" value=""></td><td>'+AddTaskName+'</td><td><select class="form-control"><option>New</option><option>In Progress</option><option>On Hold</option><option>Resolved</option></select></td></tr>');
-                        $("#TaskName").val("");
-                    }
-                    return true;
-                }
             });
 
             $("#AddCategory").click(function() {
@@ -69,9 +58,9 @@
 
     <div class="row">
         <div class="col-md-12">
-            <form class="form-horizontal" role="form" onsubmit="">
+            <form class="form-horizontal" role="form">
                 <div class="form-group">
-                    <button type="button" id="AddTask" class="btn btn-primary col-md-2">Add Task</button>
+                    <button type="submit" id="AddTask" class="btn btn-primary col-md-2">Add Task</button>
                     <div class="col-md-10">
                         <input type="text" class="form-control" id="TaskName" placeholder="Enter task name...">
                     </div>
