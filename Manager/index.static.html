@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Task Manager</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/TaskManager.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="js/notify.min.js"></script>
+
+    <script>
+
+        // Array of tasks, global variable, very bad coding style
+        var taskListObjects = [];
+
+        // Construction of object to save in local storage
+        function ConstructObject() {
+            var taskCount = $('#TasksTable tbody tr').length;
+            var taskNames = $('#TasksTable tbody tr');
+
+            for (var i = 0; i < taskCount; i++) {
+
+                var taskDone = taskNames[i].cells.item(0).firstChild.checked;
+                var taskName = taskNames[i].cells.item(1).innerText;
+                var taskStatus = taskNames[i].cells.item(2).innerText;
+
+                taskListObjects.push({
+                    done: taskDone,
+                    name: taskName,
+                    status: taskStatus
+                });
+            }
+
+            console.log(taskListObjects);
+        }
+
+        //Construction of task list using object retrieved from local storage
+        function ConstructTaskList() {
+            var tasksTableHtml = "";
+
+            taskListObjects.forEach(function (item, i, taskListObjects) {
+                var taskDone = item.done;
+                var taskName = item.name;
+                var taskStatus = item.status;
+
+                tasksTableHtml = tasksTableHtml +
+                        '<tr><td><input type="checkbox" checked="' + taskDone + '"></td>' +
+                        '<td>' + taskName + '</td><td><div class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">New<span class="caret"></span></a>' +
+                        '<ul class="dropdown-menu" id="TaskStatus"><li id="New"><a href="#">'+item.status+'</a></li><li id="In Progress"><a href="#">In Progress</a></li><li id="On Hold"><a href="#">On Hold</a></li><li id="Resolved"><a href="#">Resolved</a></li></ul></div></td></tr>';
+
+            });
+
+        }
+
+        function printObject() {
+            console.log(taskListObjects);
+        }
+
+        // Storing an object into local storage
+        function StoreObject() {
+            localStorage.setItem('taskManagerList', JSON.stringify(taskListObjects));
+        }
+
+        // Loading object from local storage
+        function LoadObject() {
+            taskListObjects = JSON.parse(localStorage.getItem("taskManagerList"));
+        }
+
+        $(document).ready(function(){
+
+
+            ConstructObject();
+            StoreObject();
+            console.log(taskListObjects);
+
+
+            //Work with dynamic content
+            $(document).on("click", ":checkbox", function () {
+                var myRow = $(this).parent().parent();
+                var lastRow = $(myRow).nextAll();
+                $(myRow).toggleClass('stroked');
+                if (myRow.hasClass('stroked')) {
+                    myRow.remove();
+                    $("#TasksTable").find("tbody:last").append(myRow);
+                }
+                return true;
+            });
+
+            $("#AddTask").click(function() {
+                var AddTaskName = $("#TaskName").val();
+                if (AddTaskName) {
+                    $("#TasksTable").find("tbody:first").prepend('<tr><td><input type="checkbox" value=""></td><td>'+AddTaskName+'</td><td>' + '<div class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">New<span class="caret"></span></a><ul class="dropdown-menu" id="TaskStatus"><li id="New"><a href="#">New</a></li><li id="In Progress"><a href="#">In Progress</a></li><li id="On Hold"><a href="#">On Hold</a></li><li id="Resolved"><a href="#">Resolved</a></li></ul></div></td></tr>');
+                    $("#TaskName").val("");
+                }
+                return false;
+            });
+
+            $("#AddCategory").click(function() {
+                var AddCategoryName = $("#NewCategory").val();
+                if (AddCategoryName) {
+                    $("#Categories").append('<button type="button" class="btn btn-default category_item">'+AddCategoryName+'</button>');
+                    $("#NewCategory").val("");
+                }
+                return true;
+            });
+
+            $(document).on("click", "#TaskStatus li", function() {
+                $(this).parent().siblings("a").html(this.id+'<span class="caret"></span>');
+                return true;
+            });
+
+            $("button").parent("#Categories").click(function() {
+                $.notify("Not Implemented Yet", {autoHide: true});
+            });
+        });
+
+    </script>
+
+</head>
+<body>
+
+<div class="container">
+    <h1>Task Manager</h1>
+
+    <div class="row">
+        <div class="col-md-12">
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <button type="submit" id="AddTask" class="btn btn-primary col-md-2">Add Task</button>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" id="TaskName" placeholder="Enter task name...">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2" style="background-color:lavender; height:500px;">
+            <div class="btn-group-vertical" id="Categories">
+                <button type="button" class="btn btn-default category_item">Task Manager</button>
+                <button type="button" class="btn btn-default category_item">Personal Stuff</button>
+                <button type="button" class="btn btn-default category_item">Angular JS</button>
+                <button type="button" class="btn btn-default category_item">Backbone JS</button>
+            </div>
+            <input type="text" class="form-control category_name" id="NewCategory" placeholder="New Category...">
+            <button type="button" id="AddCategory" class="btn btn-default category_add">Add Category</button>
+        </div>
+
+        <div class="col-md-10" style="background-color:lavenderblush; height:500px; overflow: auto;">
+            <table class="table" id="TasksTable">
+                <thead>
+                <tr>
+                    <th>Done</th>
+                    <th>Task Name</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody id="TasksList">
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>1Start the project</td>
+                    <td>
+                        <div class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">New<span class="caret"></span></a>
+                            <ul class="dropdown-menu" id="TaskStatus">
+                                <li id="New"><a href="#">New</a></li>
+                                <li id="In Progress"><a href="#">In Progress</a></li>
+                                <li id="On Hold"><a href="#">On Hold</a></li>
+                                <li id="Resolved"><a href="#">Resolved</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>2Setup Version control</td>
+                    <td>
+                        <div class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">New<span class="caret"></span></a>
+                            <ul class="dropdown-menu" id="TaskStatus">
+                                <li id="New"><a href="#">New</a></li>
+                                <li id="In Progress"><a href="#">In Progress</a></li>
+                                <li id="On Hold"><a href="#">On Hold</a></li>
+                                <li id="Resolved"><a href="#">Resolved</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" value=""></td>
+                    <td>3Page Makeup</td>
+                    <td>
+                        <div class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">New<span class="caret"></span></a>
+                            <ul class="dropdown-menu" id="TaskStatus">
+                                <li id="New"><a href="#">New</a></li>
+                                <li id="In Progress"><a href="#">In Progress</a></li>
+                                <li id="On Hold"><a href="#">On Hold</a></li>
+                                <li id="Resolved"><a href="#">Resolved</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" value=""></td>
+                    <td>4Add dynamic</td>
+                    <td>
+                        <div class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">New<span class="caret"></span></a>
+                            <ul class="dropdown-menu" id="TaskStatus">
+                                <li id="New"><a href="#">New</a></li>
+                                <li id="In Progress"><a href="#">In Progress</a></li>
+                                <li id="On Hold"><a href="#">On Hold</a></li>
+                                <li id="Resolved"><a href="#">Resolved</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" value=""></td>
+                    <td>5Attach backend/persistence</td>
+                    <td>
+                        <div class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">New<span class="caret"></span></a>
+                            <ul class="dropdown-menu" id="TaskStatus">
+                                <li id="New"><a href="#">New</a></li>
+                                <li id="In Progress"><a href="#">In Progress</a></li>
+                                <li id="On Hold"><a href="#">On Hold</a></li>
+                                <li id="Resolved"><a href="#">Resolved</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" value=""></td>
+                    <td>6Fix bugs</td>
+                    <td>
+                        <div class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">New<span class="caret"></span></a>
+                            <ul class="dropdown-menu" id="TaskStatus">
+                                <li id="New"><a href="#">New</a></li>
+                                <li id="In Progress"><a href="#">In Progress</a></li>
+                                <li id="On Hold"><a href="#">On Hold</a></li>
+                                <li id="Resolved"><a href="#">Resolved</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
