@@ -17,14 +17,15 @@
 
         // Construction of object to save in local storage
         function ConstructObject() {
+            taskListObjects.length = 0;
             var taskCount = $('#TasksTable tbody tr').length;
             var taskNames = $('#TasksTable tbody tr');
 
             for (var i = 0; i < taskCount; i++) {
 
-                var taskDone = taskNames[i].cells.item(0).innerText;
+                var taskDone = taskNames[i].cells.item(0).firstChild.checked;
                 var taskName = taskNames[i].cells.item(1).innerText;
-                var taskStatus = taskNames[i].cells.item(2).innerText;
+                var taskStatus = taskNames[i].cells.item(2).firstChild.innerText;
 
                 taskListObjects.push({
                     done: taskDone,
@@ -32,18 +33,30 @@
                     status: taskStatus
                 });
             }
+
+            console.log(taskNames);
         }
 
         //Construction of task list using object retrieved from local storage
         function ConstructTaskList() {
+            var tasksTableHtml = "";
 
+            taskListObjects.forEach(function (item, i, taskListObjects) {
+                var taskDone = item.done;
+                var taskName = item.name;
+                var taskStatus = item.status;
+
+                tasksTableHtml = tasksTableHtml +
+                        '<tr ' + (taskDone && 'class="stroked"') +'>' +
+                        '<td><input type="checkbox"' + ( taskDone && 'checked="checked"') + '></td>' +
+                        '<td>' + taskName + '</td>' +
+                        '<td><div class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">' + item.status + '<span class="caret"></span></a><ul class="dropdown-menu" id="TaskStatus"><li id="New"><a href="#">New</a></li><li id="In Progress"><a href="#">In Progress</a></li><li id="On Hold"><a href="#">On Hold</a></li><li id="Resolved"><a href="#">Resolved</a></li></ul></div></td></tr>';
+
+            });
+            $("#TasksTable").find("tbody:first").prepend(tasksTableHtml);
         }
 
-        function printObject() {
-            console.log(taskListObjects);
-        }
-
-        // Storing an object into local storage
+         // Storing an object into local storage
         function StoreObject() {
             localStorage.setItem('taskManagerList', JSON.stringify(taskListObjects));
         }
@@ -55,9 +68,9 @@
 
         $(document).ready(function(){
 
+            //Loading Task List when page is loaded
             LoadObject();
-            printObject();
-
+            ConstructTaskList();
 
             //Work with dynamic content
             $(document).on("click", ":checkbox", function () {
@@ -68,6 +81,8 @@
                     myRow.remove();
                     $("#TasksTable").find("tbody:last").append(myRow);
                 }
+                ConstructObject();
+                StoreObject();
                 return true;
             });
 
@@ -76,6 +91,8 @@
                 if (AddTaskName) {
                     $("#TasksTable").find("tbody:first").prepend('<tr><td><input type="checkbox" value=""></td><td>'+AddTaskName+'</td><td>' + '<div class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">New<span class="caret"></span></a><ul class="dropdown-menu" id="TaskStatus"><li id="New"><a href="#">New</a></li><li id="In Progress"><a href="#">In Progress</a></li><li id="On Hold"><a href="#">On Hold</a></li><li id="Resolved"><a href="#">Resolved</a></li></ul></div></td></tr>');
                     $("#TaskName").val("");
+                    ConstructObject();
+                    StoreObject();
                 }
                 return false;
             });
@@ -90,7 +107,9 @@
             });
 
             $(document).on("click", "#TaskStatus li", function() {
-                $(this).parent().siblings("a").html(this.id+'<span class="caret"></span>');
+                $(this).parent().siblings("a:first").html(this.id+'<span class="caret"></span>');
+                ConstructObject();
+                StoreObject();
                 return true;
             });
 
@@ -142,96 +161,6 @@
                 </tr>
                 </thead>
                 <tbody id="TasksList">
-                <tr>
-                    <td><input type="checkbox" value=""></td>
-                    <td>1Start the project</td>
-                    <td>
-                        <div class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">New<span class="caret"></span></a>
-                            <ul class="dropdown-menu" id="TaskStatus">
-                                <li id="New"><a href="#">New</a></li>
-                                <li id="In Progress"><a href="#">In Progress</a></li>
-                                <li id="On Hold"><a href="#">On Hold</a></li>
-                                <li id="Resolved"><a href="#">Resolved</a></li>
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" value=""></td>
-                    <td>2Setup Version control</td>
-                    <td>
-                        <div class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">New<span class="caret"></span></a>
-                            <ul class="dropdown-menu" id="TaskStatus">
-                                <li id="New"><a href="#">New</a></li>
-                                <li id="In Progress"><a href="#">In Progress</a></li>
-                                <li id="On Hold"><a href="#">On Hold</a></li>
-                                <li id="Resolved"><a href="#">Resolved</a></li>
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" value=""></td>
-                    <td>3Page Makeup</td>
-                    <td>
-                        <div class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">New<span class="caret"></span></a>
-                            <ul class="dropdown-menu" id="TaskStatus">
-                                <li id="New"><a href="#">New</a></li>
-                                <li id="In Progress"><a href="#">In Progress</a></li>
-                                <li id="On Hold"><a href="#">On Hold</a></li>
-                                <li id="Resolved"><a href="#">Resolved</a></li>
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" value=""></td>
-                    <td>4Add dynamic</td>
-                    <td>
-                        <div class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">New<span class="caret"></span></a>
-                            <ul class="dropdown-menu" id="TaskStatus">
-                                <li id="New"><a href="#">New</a></li>
-                                <li id="In Progress"><a href="#">In Progress</a></li>
-                                <li id="On Hold"><a href="#">On Hold</a></li>
-                                <li id="Resolved"><a href="#">Resolved</a></li>
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" value=""></td>
-                    <td>5Attach backend/persistence</td>
-                    <td>
-                        <div class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">New<span class="caret"></span></a>
-                            <ul class="dropdown-menu" id="TaskStatus">
-                                <li id="New"><a href="#">New</a></li>
-                                <li id="In Progress"><a href="#">In Progress</a></li>
-                                <li id="On Hold"><a href="#">On Hold</a></li>
-                                <li id="Resolved"><a href="#">Resolved</a></li>
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" value=""></td>
-                    <td>6Fix bugs</td>
-                    <td>
-                        <div class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">New<span class="caret"></span></a>
-                            <ul class="dropdown-menu" id="TaskStatus">
-                                <li id="New"><a href="#">New</a></li>
-                                <li id="In Progress"><a href="#">In Progress</a></li>
-                                <li id="On Hold"><a href="#">On Hold</a></li>
-                                <li id="Resolved"><a href="#">Resolved</a></li>
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
                 </tbody>
             </table>
 
