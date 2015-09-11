@@ -27,14 +27,18 @@
                 var taskName = taskNames[i].cells.item(1).innerText;
                 var taskStatus = taskNames[i].cells.item(2).firstChild.innerText;
 
+                // Patch to fix strange problem with getting innerText of all items instead of only selected
+                var taskStatusRet = taskStatus.search("\n");
+                if (taskStatusRet > 0 ) {
+                    taskStatus = taskStatus.slice(0, taskStatusRet);
+                }
+
                 taskListObjects.push({
                     done: taskDone,
                     name: taskName,
                     status: taskStatus
                 });
             }
-
-            console.log(taskNames);
         }
 
         //Construction of task list using object retrieved from local storage
